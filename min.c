@@ -1,11 +1,10 @@
 # include <stdio.h>
 #include <string.h>
-
+#include <ctype.h>
 typedef  struct lives
 {
     char titre [100];
     char auteur [100];
-    char Adresse [100];
     float prix;
     int quantite;
 }live_n;
@@ -24,12 +23,35 @@ void fyo_swap(float *p1 ,float *p2)
     *p1 = *p2;
     *p2 = a;
 }
-
+void to_lower_case (char *str)
+{
+    int i;
+    if (str[0] >= 'a' && str[0] <= 'z')
+            str[0] -= 32;
+    i = 1;
+    while (str[i])
+    {
+        if (str[i] >= 'A' && str[i] <= 'Z')
+        {
+          str[i] += 32;  
+        }
+        i++;
+    }
+    
+}
+void cyo_swap(char *p1 ,char *p2)
+{
+    char *a;
+    *a = *p1;
+    *p1 = *p2;
+    *p2 = *a;
+}
 void    ajouter(live_n live[100] , int *count);
 void    afficher(live_n live[100], int *count);
 void    Rechercher (live_n live[100],int *count);
 void    update(live_n live[100],int *count);
 void    Supprimer (live_n live[100], int *count);
+void    trip_libre(live_n live[100], int *count);
 void    afich();
 
 int main ()
@@ -46,7 +68,8 @@ int main ()
         switch (choix) {
             case 1:
                ajouter(live , p_count);
-                printf("Count: %d\n", count);
+               afficher(live , p_count);
+
 
                 break;
             case 2:
@@ -77,7 +100,7 @@ int main ()
 
 void afich()
 {
-    printf("===========================\n");
+    printf("\n===========================\n");
     printf("1=>ajouter\n");
     printf("2=>afficher\n");
     printf("3=>update\n");
@@ -92,6 +115,7 @@ void  ajouter(live_n live[100], int *count)
 {   
     int y;
     int n;
+    int i = 1;
 
     printf("ajoute 1 elment entre 0 et plus all namber 1 : ");
     scanf("%d", &y);
@@ -101,6 +125,13 @@ void  ajouter(live_n live[100], int *count)
     case 0:
         printf ("titre : ");
         scanf ("%s", &live[*count].titre);
+        to_lower_case(live[*count].titre);
+        // while (live[*count].titre[i] != 0)
+        // {
+        //     islower(live[*count].titre[i]);
+        //     i++;
+        // }
+        tolower(live[*count].titre[0]);
         printf ("auteur : ");
         scanf ("%s", &live[*count].auteur);
         printf ("prix : ");
@@ -118,12 +149,16 @@ void  ajouter(live_n live[100], int *count)
         {
             printf ("titre  : ");
             scanf ("%s", &live[*count].titre);
+
+            to_lower_case(live[*count].titre);
+
             printf ("auteur : ");
             scanf ("%s", &live[*count].auteur);
             printf ("prix : ");
             scanf ("%f", &live[*count].prix);
             printf ("quantite : ");
-            scanf ("%d", &live[*count].quantite);  
+            scanf ("%d", &live[*count].quantite); 
+            i = 0;
         }
 
         
@@ -139,10 +174,10 @@ void  afficher(live_n live[100], int *count)
     for (int i = 0; i < *count; i++)
     {
             printf("\n------------------------------\n");
-            printf ("titre  :  %s",live[i].titre);
-            printf ("auteur : %s",live[i].auteur);
-            printf ("prix : %.2f dh", live[i].prix);
-            printf ("quantite : %d",live[i].quantite);
+            printf ("titre  :  %s ",live[i].titre);
+            printf ("auteur : %s ",live[i].auteur);
+            printf ("prix : %.2f dh ", live[i].prix);
+            printf ("quantite : %d\n",live[i].quantite);
     }
 }
 
@@ -205,7 +240,9 @@ void update(live_n live[100],int *count)
     }
     if (n == 1)
     {
-        printf("============enter lechoi de mofifer ============\n 1 => titre \n 2 => quantite \n 3 => prix \n 4 => tous les champ \n");
+        printf("============enter lechoi de mofifer ============\n \
+         1 => titre \n 2 => quantite \n \
+          3 => prix \n 4 => tous les champ \n");
         scanf("%d",&chois);
         switch (chois)
         {
@@ -299,4 +336,28 @@ void Supprimer (live_n live[100],int *count)
     }
     
 }
+
+void    trip_libre(live_n live[100], int *count)
+{
+    int i;
+    for (int i = 0; i < *count-1; i++)
+    {
+        for (int j = 0; j < *count-1-i; j++)
+        {
+        if (strcmp(live[j].titre ,live[j+1].titre) <= -1)
+        {
+             cyo_swap(live[j].titre ,live[j+1].titre);
+             cyo_swap(live[j].auteur ,live[j+1].auteur);
+             fyo_swap (&live[j].prix ,&live[j+1].prix);
+             yo_swap (&live[j].quantite ,&live[j+1].quantite);
+
+        }
+        }
+        
+    }
+    
+
+
+}
+
     
