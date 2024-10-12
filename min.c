@@ -197,7 +197,7 @@ void Rechercher (live_n live[100],int *count)
     {
         if (strcmp(live[i].titre ,stre) == 0)
         {
-            // printf ("titre  : %s",titre[i] );
+            // printf ("titre  : %s",titre[i] );v
              r = i;
              n = 1;
              break;
